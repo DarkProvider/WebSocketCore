@@ -37,13 +37,10 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using WebSocketSharp.Net;
 using WebSocketSharp.Net.WebSockets;
 
@@ -1328,8 +1325,8 @@ namespace WebSocketSharp.Server
         /// </exception>
         public void Start()
         {
-            Task.Run(() =>
-            {
+            //Task.Run(() =>
+            //{
                 ServerSslConfiguration sslConfig = null;
 
                 if (_secure)
@@ -1342,7 +1339,7 @@ namespace WebSocketSharp.Server
                 }
 
                 start(sslConfig);
-            }).ConfigureAwait(false);
+            //}).ConfigureAwait(false);
         }
 
         /// <summary>

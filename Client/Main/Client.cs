@@ -13,6 +13,9 @@ namespace Client.Main
         {
             Console.Title = "Client";
 
+            // Disables logging.
+            Settings.client.Log.Output = (_, __) => { };
+
             // Little handler framework to keep things clean.
             Settings.client.OnOpen += (sender, e) => Handlers.OnConnect.Handle();
             Settings.client.OnMessage += (sender, m) => Handlers.OnMessage.Handle(m);

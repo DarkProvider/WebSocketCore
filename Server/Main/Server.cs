@@ -17,9 +17,12 @@ namespace Server.Main
         {
             Console.Title = "Server";
 
+            // Disables logging.
+            Settings.server.Log.Output = (_, __) => { };
+
             // Add service name.
             if (!Settings.servicename.Contains("/"))
-                Console.Write("Service name cannot be null and must end either in '/' indicating root, or for example '/chat'");
+                Console.Write("Service name cannot be null and must end either in '/' indicating root, or for example '/chat'\n");
             else
                 Settings.server.AddWebSocketService<Server>(Settings.servicename);
 

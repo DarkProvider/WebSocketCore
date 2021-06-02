@@ -1,0 +1,12 @@
+Backup*
+_UpgradeReport_Files
+bin
+obj
+
+*.mdb
+*.pdb
+*.pidb
+*.suo
+*.user
+*.userprefs
+UpgradeLog*.*

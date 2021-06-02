@@ -17,8 +17,10 @@ namespace Server.Main
         {
             Console.Title = "Server";
 
-            // Add servicename if present.
-            if (Settings.servicename.Length != 0)
+            // Add service name.
+            if (!Settings.servicename.Contains("/"))
+                Console.Write("Service name cannot be null and must end either in '/' indicating root, or for example '/chat'");
+            else
                 Settings.server.AddWebSocketService<Server>(Settings.servicename);
 
             // Start the server.

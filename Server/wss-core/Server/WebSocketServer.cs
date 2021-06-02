@@ -43,6 +43,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using WebSocketSharp.Net;
 using WebSocketSharp.Net.WebSockets;
 
@@ -1307,46 +1308,50 @@ namespace WebSocketSharp.Server
       return _services.RemoveService (path);
     }
 
-    /// <summary>
-    /// Starts receiving incoming handshake requests.
-    /// </summary>
-    /// <remarks>
-    /// This method does nothing if the server has already started or
-    /// it is shutting down.
-    /// </remarks>
-    /// <exception cref="InvalidOperationException">
-    ///   <para>
-    ///   There is no server certificate for secure connection.
-    ///   </para>
-    ///   <para>
-    ///   -or-
-    ///   </para>
-    ///   <para>
-    ///   The underlying <see cref="TcpListener"/> has failed to start.
-    ///   </para>
-    /// </exception>
-    public void Start ()
-    {
-      ServerSslConfiguration sslConfig = null;
+        /// <summary>
+        /// Starts receiving incoming handshake requests.
+        /// </summary>
+        /// <remarks>
+        /// This method does nothing if the server has already started or
+        /// it is shutting down.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">
+        ///   <para>
+        ///   There is no server certificate for secure connection.
+        ///   </para>
+        ///   <para>
+        ///   -or-
+        ///   </para>
+        ///   <para>
+        ///   The underlying <see cref="TcpListener"/> has failed to start.
+        ///   </para>
+        /// </exception>
+        public void Start()
+        {
+            Task.Run(() =>
+            {
+                ServerSslConfiguration sslConfig = null;
 
-      if (_secure) {
-        sslConfig = new ServerSslConfiguration (getSslConfiguration ());
+                if (_secure)
+                {
+                    sslConfig = new ServerSslConfiguration(getSslConfiguration());
 
-        string msg;
-        if (!checkSslConfiguration (sslConfig, out msg))
-          throw new InvalidOperationException (msg);
-      }
+                    string msg;
+                    if (!checkSslConfiguration(sslConfig, out msg))
+                        throw new InvalidOperationException(msg);
+                }
 
-      start (sslConfig);
-    }
+                start(sslConfig);
+            }).ConfigureAwait(false);
+        }
 
-    /// <summary>
-    /// Stops receiving incoming handshake requests.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">
-    /// The underlying <see cref="TcpListener"/> has failed to stop.
-    /// </exception>
-    public void Stop ()
+        /// <summary>
+        /// Stops receiving incoming handshake requests.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// The underlying <see cref="TcpListener"/> has failed to stop.
+        /// </exception>
+        public void Stop ()
     {
       stop (1001, String.Empty);
     }

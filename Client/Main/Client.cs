@@ -11,7 +11,6 @@ namespace Client.Main
 
         internal static void Main()
         {
-            Thread.Sleep(3000);
             Console.Title = "Client";
 
             // Little handler framework to keep things clean.
@@ -42,6 +41,7 @@ namespace Client.Main
                     if (!Settings.client.IsConnected)
                     {
                         C.Log("Connection lost! Attempting to reconnect..");
+                        Settings.client.Connect();
                         if (Settings.client.IsConnected)
                             C.Log("Successfully reconnected!");
                     }
